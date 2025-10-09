@@ -1,0 +1,41 @@
+name: 'My Action Upload'
+description: 'Upload build artifacts to Supabase function'
+author: 'Seu Nome'
+
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+
+inputs:
+  api-key:
+    description: 'API Key for authentication (X-API-Key header)'
+    required: true
+  file-path:
+    description: 'Path to the file to upload'
+    required: true
+  supabase-url:
+    description: 'Supabase function URL'
+    required: false
+    default: 'https://zdlodazgxjgkoqrseoah.supabase.co/functions/v1/upload'
+
+outputs:
+  response:
+    description: 'Response from the upload'
+    value: ${{ steps.upload.outputs.response }}
+  http-status:
+    description: 'HTTP status code'
+    value: ${{ steps.upload.outputs.http-status }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Upload File
+      id: upload
+      shell: bash
+      env:
+        API_KEY: ${{ inputs.api-key }}
+        FILE_PATH: ${{ inputs.file-path }}
+        SUPABASE_URL: ${{ inputs.supabase-url }}
+      run: |
+        chmod +x ${{ github.action_path }}/upload.sh
+        ${{ github.action_path }}/upload.sh
