@@ -13,6 +13,9 @@ inputs:
   file-path:
     description: 'Path to the file to upload'
     required: true
+  x-app-package:
+    description: 'Application package identifier (X-App-Package header)'
+    required: true
   supabase-url:
     description: 'Supabase function URL'
     required: false
@@ -35,6 +38,7 @@ runs:
       env:
         API_KEY: ${{ inputs.api-key }}
         FILE_PATH: ${{ inputs.file-path }}
+        X_APP_PACKAGE: ${{ inputs.x-app-package }}
         SUPABASE_URL: ${{ inputs.supabase-url }}
       run: |
         chmod +x ${{ github.action_path }}/upload.sh
