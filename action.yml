@@ -16,6 +16,9 @@ inputs:
   x-app-package:
     description: 'Application package identifier (X-App-Package header)'
     required: true
+  x-platform:
+    description: 'Platform identifier (X-Platform header, e.g., android, ios)'
+    required: true
   supabase-url:
     description: 'Supabase function URL'
     required: false
@@ -39,6 +42,7 @@ runs:
         API_KEY: ${{ inputs.api-key }}
         FILE_PATH: ${{ inputs.file-path }}
         X_APP_PACKAGE: ${{ inputs.x-app-package }}
+        X_PLATFORM: ${{ inputs.x-platform }}
         SUPABASE_URL: ${{ inputs.supabase-url }}
       run: |
         chmod +x ${{ github.action_path }}/upload.sh
