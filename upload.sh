@@ -12,15 +12,17 @@ echo "🔍 Checking required environment variables..."
 echo "   API_KEY: ${API_KEY:0:10}... (${#API_KEY} chars)"
 echo "   FILE_PATH: $FILE_PATH"
 echo "   X_APP_PACKAGE: $X_APP_PACKAGE"
+echo "   X_PLATFORM: $X_PLATFORM"
 echo "   SUPABASE_URL: $SUPABASE_URL"
 echo ""
 
-if [ -z "$API_KEY" ] || [ -z "$FILE_PATH" ] || [ -z "$X_APP_PACKAGE" ] || [ -z "$SUPABASE_URL" ]; then
+if [ -z "$API_KEY" ] || [ -z "$FILE_PATH" ] || [ -z "$X_APP_PACKAGE" ] || [ -z "$X_PLATFORM" ] || [ -z "$SUPABASE_URL" ]; then
   echo "❌ ERROR: Missing required inputs."
   echo "   Required variables:"
   echo "   - API_KEY: ${API_KEY:+SET}${API_KEY:-NOT SET}"
   echo "   - FILE_PATH: ${FILE_PATH:+SET}${FILE_PATH:-NOT SET}"
   echo "   - X_APP_PACKAGE: ${X_APP_PACKAGE:+SET}${X_APP_PACKAGE:-NOT SET}"
+  echo "   - X_PLATFORM: ${X_PLATFORM:+SET}${X_PLATFORM:-NOT SET}"
   echo "   - SUPABASE_URL: ${SUPABASE_URL:+SET}${SUPABASE_URL:-NOT SET}"
   exit 1
 fi
@@ -63,6 +65,7 @@ UPLOAD_START_TIME=$(date +%s)
 RESPONSE=$(curl -s -X POST "$SUPABASE_URL" \
   -H "X-API-Key: $API_KEY" \
   -H "X-App-Package: $X_APP_PACKAGE" \
+  -H "X-Platform: $X_PLATFORM" \
   -F "file=@$FILE_PATH" \
   -w "\n---SEPARATOR---\nHTTP_STATUS:%{http_code}\nTIME_TOTAL:%{time_total}s\nSPEED_UPLOAD:%{speed_upload} bytes/sec\n")
 
